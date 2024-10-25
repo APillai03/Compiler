@@ -37,9 +37,13 @@ void calc_first(char non_term)
             {
                 for(int j=2;j<strlen(Prod[i]);j++)
                 {
-                    if(isupper(Prod[i][j]))
+                    if(isupper(Prod[i][j]) && Prod[i][j]!=non_term)
                     {
                         calc_first(Prod[i][j]);
+                    }
+                    else if(isupper(Prod[i][j]) && Prod[i][j]==non_term)
+                    {
+                        continue;
                     }
                     else
                     {

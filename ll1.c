@@ -1,5 +1,4 @@
-#include"Follow.h"
-
+#include"ll1.h"
 int main()
 {
     printf("Enter the no of Productions: ");
@@ -20,15 +19,20 @@ int main()
     }
     traverser1();
     traverser2();
-    for(int i=0;i<26;i++)
-    {
-        if(Follow[i][0]!=0)
-        {
-            printf("Follow of %c->%s\n",i+65,Follow[i]);
-        }
-        
-    }
+    tablegen();
+    char expression[100];
+    memset(expression,0,100);
+    printf("Enter the expression to parse(End with $):\n");
 
+    scanf("%s",expression);
+    if(Parser(expression))
+    {
+        printf("ACCEPTED");
+    }
+    else
+    {
+        printf("REJECTED");
+    }
 
     return 0;
 }
