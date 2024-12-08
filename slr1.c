@@ -222,7 +222,9 @@ void parser(char* str)
             }
             else
             {
-                for(int i=0;i<(strlen(Prod[parsing_table[it_no][str[ptr]]-1])-2)*2;i++)
+                int pops = (strlen(Prod[parsing_table[it_no][str[ptr]]-1])-2)*2;
+                pops = (pops==0 )* 1 + (pops!=0)*pops;
+                for(int i=0;i<pops;i++)
                 {
                     top = top-1;
                 }
@@ -238,8 +240,9 @@ void parser(char* str)
 }
 int main()
 {
-    
-    printf("Enter the no of Productions: ");
+    while(1)
+    {
+        printf("Enter the no of Productions: ");
     scanf("%d", &n);
     printf("Enter the Grammar e.g. A=aB: \n");
     for(int i=0;i<n;i++)
@@ -298,4 +301,6 @@ int main()
     char* str;
     scanf("%s",str);
     parser(str);
+    }
+    
 }
