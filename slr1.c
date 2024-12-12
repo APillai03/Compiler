@@ -172,18 +172,21 @@ void update_table()
     }
     for(int i=0;i<item_no+1;i++)
     {
-        if(item_arr[i].red==1)
+        for(int j=0;item_arr[i].itemprod[j][0]!=0;j++)
         {
-            for(int j=0;j<n;j++)
+            if(strlen(item_arr[i].itemprod[j])==item_arr[i].dotpos[j])
             {
-                if(strcmp(item_arr[i].itemprod[0],Prod[j])==0)
+                for(int k=0;k<n;k++)
                 {
-                    for(int k=0;Follow[Prod[j][0]-65][k]!='\0';k++)
+                    if(strcmp(item_arr[i].itemprod[j],Prod[k])==0)
                     {
-                        parsing_table[i][Follow[Prod[j][0]-65][k]] = j+1;
+                        for(int l=0;Follow[Prod[k][0]-65][l]!='\0';l++)
+                        {
+                            parsing_table[i][Follow[Prod[k][0]-65][l]] = -1*(k+1);
+                        }
                     }
                 }
-            }
+            }    
         }
     }
 }
@@ -214,7 +217,7 @@ void parser(char* str)
         else
         {
             int it_no = stack[top]-48;
-            if(item_arr[it_no].red!=1)
+            if(parsing_table[it_no][str[ptr]]>0)
             {
                 stack[++top] = str[ptr];
                 stack[++top] = parsing_table[it_no][str[ptr]] + '0';
@@ -222,13 +225,13 @@ void parser(char* str)
             }
             else
             {
-                int pops = (strlen(Prod[parsing_table[it_no][str[ptr]]-1])-2)*2;
-                pops = (pops==0 )* 1 + (pops!=0)*pops;
+                int pops = (strlen(Prod[-1*(parsing_table[it_no][str[ptr]])-1])-2)*2;
+                //pops = (pops==0 )* 1 + (pops!=0)*pops;
                 for(int i=0;i<pops;i++)
                 {
                     top = top-1;
                 }
-                stack[++top] = Prod[parsing_table[it_no][str[ptr]]-1][0];
+                stack[++top] = Prod[-1*(parsing_table[it_no][str[ptr]])-1][0];
                 char a = stack[top-1];
                 char b = stack[top];
                 stack[++top] = parsing_table[a-48][b] + '0';
@@ -240,9 +243,7 @@ void parser(char* str)
 }
 int main()
 {
-    while(1)
-    {
-        printf("Enter the no of Productions: ");
+    printf("Enter the no of Productions: ");
     scanf("%d", &n);
     printf("Enter the Grammar e.g. A=aB: \n");
     for(int i=0;i<n;i++)
@@ -300,7 +301,5 @@ int main()
     }
     char* str;
     scanf("%s",str);
-    parser(str);
-    }
-    
+    parser(str);   
 }
